@@ -1,4 +1,4 @@
-import { Button, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 
 import characters from '../../../public/characters'
 import filterOffIcon from '../../../assets/favFilter_empty.png';
