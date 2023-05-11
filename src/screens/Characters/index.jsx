@@ -6,7 +6,7 @@ import filterOnIcon from '../../../assets/favFilter_full.png';
 import styles from './styles';
 import { useState } from 'react';
 
-const Characters = () => {
+const Characters = ({navigation}) => {
 
   const characterList={characters};
   const [favoritos, setFavoritos]=useState([]);
@@ -46,14 +46,16 @@ const Characters = () => {
       favIcon=favIconOff
     }
     return(
-      <View style={styles.renderItemStyle}> 
-        <Image style={styles.itemImageStyle} source={item.image}/>
-        <Text style={styles.textItemStyle}>{item.name}</Text>
-        <View style={styles.textItemStyle}>
-          <TouchableOpacity onPress={()=> onHandleFav(item)}>
-            <Image style={styles.favStyle} source={favIcon}/>
-          </TouchableOpacity>
-        </View>
+      <View>
+        <TouchableOpacity style={styles.renderItemStyle} onPress={()=>navigation.navigate("Character Detail", item)} >
+          <Image style={styles.itemImageStyle} source={item.image}/>
+          <Text style={styles.textItemStyle}>{item.name}</Text>
+          <View style={styles.itemStyle}>
+            <TouchableOpacity onPress={()=> onHandleFav(item)}>
+                <Image style={styles.favStyle} source={favIcon}/>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
       </View>
     )
     };

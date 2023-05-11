@@ -1,24 +1,27 @@
 import { StyleSheet } from "react-native";
 import colors from "../../constants/colors";
+import fonts from "../../constants/fonts";
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#231f20",
-      // alignItems: 'center',
-      // justifyContent: 'center',
+      backgroundColor: colors.mainBackgroundColor,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     titleContainer:{
-      marginTop: 0,
-      width:"100%",
-      color: colors.titleFontColor,
+      flex:1,
+      flexDirection: "row",
+      height:30,
+      width: 400,
+      marginTop: 20,
+      justifyContent: "center" ,
+      alignItems: "center" ,
     },
-    titleContainer2:{
-      marginTop: 70,
-      marginBottom: 15,
+    titleText:{
       fontSize:40,
       fontWeight: 500,
-      color: "#f8f3f6"
+      color: colors.titleFontColor,
     },
     listContainer:{
       flex: 3,
@@ -31,12 +34,12 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       marginVertical: 15,
       marginHorizontal: 10,
-      backgroundColor: "#4c4f56",
+      backgroundColor: colors.charactersListItemBackgroundColor,
       fontSize:40,
       borderRadius: 10,
       justifyContent: "center",
       alignItems: "center" ,
-      shadowColor: "white",
+      shadowColor: colors.shadowColor,
       shadowOpacity: 0.3,
       shadowOffset: { width: 1, height: 1},
       shadowRadius: 2,
@@ -47,28 +50,34 @@ const styles = StyleSheet.create({
       height: 30,
       resizeMode: "contain"
     },
+    filterIcon:{
+      resizeMode:"contain",
+      height: 60,
+      position:"relative",
+      left:-300,
+    },
     itemImageStyle:{
       height: 140,
       resizeMode:"contain",
       right:120,
     },
     textItemStyle:{
-      paddingLeft: 140,
       fontSize:30,
-      textShadowColor:"black",
+      textShadowColor: colors.textShadowColor,
       textShadowOffset:{ width: 1, height: 1},
       textShadowRadius:5,
-      textDecorationColor:"black",
-      color:"#f8f3f6",
+      textDecorationColor: colors.textDecorationColor,
+      color: colors.listItemTextColor,
       position:"absolute",
+      fontFamily: fonts.itemFont,
     },
     itemStyle:{
       fontSize:30,
-      textShadowColor:"black",
+      textShadowColor:colors.textShadowColor,
       textShadowOffset:{ width: 1, height: 1},
       textShadowRadius:5,
-      textDecorationColor:"black",
-      color:"#f8f3f6",
+      textDecorationColor:colors.textDecorationColor,
+      color:colors.listItemTextColor,
       position:"absolute",
     },
     favStyle:{

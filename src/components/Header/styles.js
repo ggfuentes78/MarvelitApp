@@ -4,11 +4,11 @@ import fonts from "../../constants/fonts";
 
 const styles = StyleSheet.create({
     header: {
-        marginTop: 50,
+        marginTop: 10,
         backgroundColor: colors.headerBackgroundColor,
         height: 80,
         width:"100%",
-        // paddingTop: 5,
+        paddingTop: 5,
         alignItems: "center",
         justifyContent: "center",
     },
