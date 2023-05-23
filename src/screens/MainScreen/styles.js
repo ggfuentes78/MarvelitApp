@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
       color: "#f8f3f6"
     },
     listContainer:{
-      flex: 3,
+      flex: 5,
       marginHorizontal: 5,
-      marginVertical: 20,
+      marginVertical: 5,
     
     },
     renderItemStyle:{

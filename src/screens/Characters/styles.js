@@ -12,10 +12,7 @@ const styles = StyleSheet.create({
     titleContainer:{
       flex:1,
       flexDirection: "row",
-      height:30,
       width: 400,
-      marginTop: 20,
-      // justifyContent: "center" ,
       alignItems: "center" ,
     },
     titleText:{

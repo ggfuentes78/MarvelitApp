@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 
 import AppNavigator from './src/navigation/AppNavigator';
+import BottomTabNavigator from './src/navigation/BottomTabNavigator';
+import { NavigationContainer } from '@react-navigation/native';
 import colors from './src/constants/colors';
 import { useFonts } from 'expo-font';
 
@@ -16,7 +18,9 @@ export default function App() {
   }
 
     return(
-       <AppNavigator/>
+      <NavigationContainer>
+        <BottomTabNavigator/>
+       </NavigationContainer>
     )
     };
 
