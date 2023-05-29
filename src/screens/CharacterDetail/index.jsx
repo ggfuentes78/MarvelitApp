@@ -1,10 +1,12 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 
-import React from 'react'
-import styles from './styles'
+import React from 'react';
+import styles from './styles';
+import { useSelector } from 'react-redux';
 
-const CharacterDetail = (item) => {
-  const characterInfo = item.route.params
+const CharacterDetail = () => {
+  const characterInfo = useSelector(state => state.characters.selectedCharacter)
+  console.log("CHARACTER SELECTED: ", characterInfo)
 
   return (
     <View style={styles.container}>

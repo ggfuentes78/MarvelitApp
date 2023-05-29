@@ -9,7 +9,7 @@ import thor from '../assets/thor1.png'
 import venom from '../assets/venom1.png'
 import wolverine from '../assets/wolverine1.png'
 
-const characters=[
+const CHARACTERS=[
     {
         "id":"1",
         "name":"Wolverine",
@@ -58,8 +58,8 @@ const characters=[
     {
         "id":"10",
         "name":"Captain America",
-        "image": captainAmerica
+        "image": captainAmerica,
     }
 ]
 
-export default characters
+export default CHARACTERS
