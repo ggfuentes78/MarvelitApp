@@ -5,14 +5,16 @@ import charactersImg from '../../../assets/characters1.png';
 import comicsImg from '../../../assets/comics.jpg';
 import styles from "./styles";
 import teamsImg from '../../../assets/characters.png';
+import { useSelector } from "react-redux";
 
 const MainScreen = ({navigation}) => {
+     const user= useSelector(state=> state.user)
 
     return (
         
         <View style={styles.container}>
             <View style={styles.container}>
-                <Header title={"MarvelitApp"} newStyles={styles.titleContainer} />
+                <Header title={"MarvelitApp"} user={user} navigation={navigation} />
             </View>
             <View style={styles.listContainer}>
                 <TouchableOpacity onPress={()=>navigation.navigate("Character List")}>

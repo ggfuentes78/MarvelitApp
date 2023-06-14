@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
     userImg:{
         resizeMode:"contain",
         // position:"relative",
-        // borderColor:"black",
+        borderColor:"black",
+        borderRadius: 30,
         // borderStyle:"solid",
         height:"100%",
     },

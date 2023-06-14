@@ -1,12 +1,21 @@
-import { Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import React from "react";
 import styles from "./styles";
+import { useSelector } from "react-redux";
 
-const Header = ({title, newStyles})=>{
+userAvatar=null
+
+const Header = ({ navigation, title, user})=>{
     return(
-        <View style={{...styles.header, ...newStyles}}>
+        <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
+            <View style={styles.imgContainer}>
+                <TouchableOpacity style={styles.imgContainer} onPress={()=>navigation.navigate("User")}>
+                    <Image style={styles.userImg}source={user.userImg}/>
+                </TouchableOpacity>
+
+            </View>
         </View>
     );
 };

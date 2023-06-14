@@ -7,12 +7,12 @@ export const selectedCharacter = id => ({
     characterId: id,
 });
 
-export const favCharacter = item => ({
-    type: FAV_CHARACTER,
-    character: item,
-});
+// export const favCharacter = item => ({
+//     type: FAV_CHARACTER,
+//     character: item,
+// });
 
-export const unFavCharacter = item => ({
-    type: UNFAV_CHARACTER,
-    character: item,
-})
+// export const unFavCharacter = item => ({
+//     type: UNFAV_CHARACTER,
+//     character: item,
+// })

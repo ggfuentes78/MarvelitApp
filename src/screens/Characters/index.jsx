@@ -1,9 +1,11 @@
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
-import { favCharacter, selectedCharacter, unFavCharacter } from '../../store/actions/character.action';
+import { favCharacter, unFavCharacter } from '../../store/actions/user.action';
+// import { favCharacter, selectedCharacter, unFavCharacter } from '../../store/actions/character.action';
 import { useDispatch, useSelector } from 'react-redux';
 
 import filterOffIcon from '../../../assets/favFilter_empty.png';
 import filterOnIcon from '../../../assets/favFilter_full.png';
+import { selectedCharacter } from '../../store/actions/character.action';
 import styles from './styles';
 import { useState } from 'react';
 
