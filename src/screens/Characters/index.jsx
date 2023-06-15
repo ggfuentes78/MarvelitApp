@@ -1,6 +1,5 @@
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { favCharacter, unFavCharacter } from '../../store/actions/user.action';
-// import { favCharacter, selectedCharacter, unFavCharacter } from '../../store/actions/character.action';
 import { useDispatch, useSelector } from 'react-redux';
 
 import filterOffIcon from '../../../assets/favFilter_empty.png';
@@ -17,7 +16,7 @@ const Characters = ({navigation}) => {
   const dispatch = useDispatch();
   const characterList=useSelector(state=> state.characters.characters);
   const [favStatus, setFavStatus]=useState(false);
-  let favoritos = useSelector(state=>state.characters.favCharacters);
+  let favoritos = useSelector(state=>state.user.favCharacters);
   const [filterFavs, setFilterFavs] = useState(false)
   const [filterIcon, setFilterIcon] = useState(filterOffIcon)
   console.log(characterList)
@@ -38,11 +37,9 @@ const Characters = ({navigation}) => {
     setFavStatus(!favStatus)
     console.log("entre a fav");
     if (favoritos.includes(item)){
-      // setFavStatus(false);
       dispatch(unFavCharacter(item));
       console.log(`Se elimino el item id: ${item.id} de Favoritos`);
   }else{
-      // setFavStatus(true);
       dispatch(favCharacter(item));
       console.log(`Se agrego el item id: ${item.id} a Favoritos`);
     };
@@ -57,10 +54,8 @@ const Characters = ({navigation}) => {
   const renderItem = ({item}) => {
     let favIcon
     if(favoritos.includes(item)){
-      // setFavIcon(favIconOn);
       favIcon=favIconOn
     }else{
-      // setFavIcon(favIconOff);
       favIcon=favIconOff
     }
     return(

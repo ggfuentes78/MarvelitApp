@@ -18,12 +18,7 @@ const AppNavigator = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen name='Main' component={MainScreen} options={()=>({
-                title:"MARVEL",
-                headerRight: ()=>(
-                    <TouchableOpacity style={styles.imgContainer} onPress={()=>console.log("user!")}>
-                        <Image style={styles.userImg} souce={wolverine}/>
-                    </TouchableOpacity>
-                )
+                headerShown: false 
             })}/>
             <Stack.Screen name='Character List' component={Characters}/>
             <Stack.Screen name='Comics' component={Comics}/>

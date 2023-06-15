@@ -1,25 +1,35 @@
 import { StyleSheet } from "react-native";
 import colors from "../../constants/colors";
 
-// import fonts from "../../constants/fonts";
-
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 10,
+        marginTop: 50,
+        marginBottom:20,
+        backgroundColor: colors.mainBackgroundColor,
+        
     },
     preview:{
-        marginBottom: 10,
-        borderColor: colors.headerBackgroundColor,
-        borderWidth: 1,
-        height: 200,
+        marginBottom: 20,
+        justifyContent: "center",
+        backgroundColor: "white",
+        height: 300,
+        width: 300,
         width:"100%",
         alignItems: "center",
-        justifyContent: "center",
     },
     image:{
         height: "100%",
         width:"100%",
+        resizeMode:"contain",
+        
     },
+    placeHolderImg:{
+        height: "100%",
+        resizeMode:"contain",
+    },
+    btnStyle:{
+        width: 10
+    }
 })
 
 export default styles;

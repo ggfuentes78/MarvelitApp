@@ -1,11 +1,8 @@
 import { FAV_CHARACTER, FAV_TEAM, SET_IMG, UNFAV_CHARACTER, UNFAV_TEAM } from '../actions/user.action';
 
-import { TEAMS } from '../../../public/teams'
-import wolverine from '../../../assets/wolverine1.png'
-
 const initialState = {
     name: null,
-    userImg: wolverine,
+    userImg: null,
     favCharacters: [],
     favTeams: [],
 };
@@ -31,7 +28,7 @@ const UserReducer = (state= initialState, action) => {
             console.log("FAVS=>", state.favTeams)
             return {...state, favTeams: state.favTeams.filter(element=> element!==action.team)};
         case SET_IMG:
-            return {...state, usrImg: action.imgUri};
+            return {...state, userImg: action.imgUri};
         default:
             return state
     }

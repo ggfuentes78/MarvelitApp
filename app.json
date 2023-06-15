@@ -18,6 +18,7 @@
       "supportsTablet": true
     },
     "android": {
+      "permissions": ["CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptative-icon.png",
         "backgroundColor": "#ffffff"

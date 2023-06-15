@@ -9,4 +9,5 @@ export default {
     textDecorationColor: "#000",
     listItemTextColor: "#f8f3f6",
     headerBackgroundColor: "#DF2E38",
+    btnColor:"purple",
 }

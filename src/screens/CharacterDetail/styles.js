@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     },
     renderItemStyle:{
       height: 200,
-    //   width: "50%",
       flexDirection: "row",
       marginVertical: 15,
       marginHorizontal: 10,

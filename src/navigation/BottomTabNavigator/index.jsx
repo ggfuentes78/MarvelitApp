@@ -8,11 +8,6 @@ import Teams from "../../screens/Teams";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import styles from "./styles";
 
-// import Characters from "../../screens/Characters";
-
-
-
-
 const BottomTabs = createBottomTabNavigator();
 
 export default BottomTabNavigator = () => {

@@ -1,6 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
 import Header from "../../components/Header";
+import { SafeAreaView } from "react-native-safe-area-context";
 import charactersImg from '../../../assets/characters1.png';
 import comicsImg from '../../../assets/comics.jpg';
 import styles from "./styles";
@@ -11,10 +12,9 @@ const MainScreen = ({navigation}) => {
      const user= useSelector(state=> state.user)
 
     return (
-        
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.container}>
-                <Header title={"MarvelitApp"} user={user} navigation={navigation} />
+                <Header title={"MarvelitApp"} navigation={navigation} />
             </View>
             <View style={styles.listContainer}>
                 <TouchableOpacity onPress={()=>navigation.navigate("Character List")}>
@@ -36,7 +36,7 @@ const MainScreen = ({navigation}) => {
                     </View>
                 </TouchableOpacity>
             </View>
-        </View>
+        </SafeAreaView>
     )
 
 };
