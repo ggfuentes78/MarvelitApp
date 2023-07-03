@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
       paddingLeft: 30,
       marginVertical: 10,
       marginHorizontal: 10,
-    },
+    }
   });
 
   export default styles;

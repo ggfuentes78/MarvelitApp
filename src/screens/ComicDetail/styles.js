@@ -15,9 +15,10 @@ const styles = StyleSheet.create({
     titleContainer:{
       // flex:1,
       // flexDirection: "row",
-      height:60,
+      
+      // height:60,
       backgroundColor:"red",
-      // width: 400,
+      // width: 200,
 
       marginVertical: 15,
       justifyContent: "center" ,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     
     },
     renderItemStyle:{
-      height: 200,
+      height: 350,
       // flexDirection: "column",
       marginVertical: 15,
       marginHorizontal: 10,
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
       paddingLeft: 30,
       marginVertical: 10,
       marginHorizontal: 10,
-    },
+    }
   });
 
   export default styles;

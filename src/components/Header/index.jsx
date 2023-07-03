@@ -5,8 +5,9 @@ import styles from "./styles";
 import { useSelector } from "react-redux";
 import wolverine from '../../../assets/image-placeholder.png'
 
-const Header = ({ navigation, title, user2})=>{
+const Header = ({ navigation, title})=>{
     const user=useSelector(state=>state.user)
+    console.log("UUUSS3", user)
     const placeHolderUser =wolverine
     console.log("LLL", user.userImg);
     return(

@@ -5,21 +5,29 @@ import BottomTabNavigator from './src/navigation/BottomTabNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import colors from './src/constants/colors';
+import { init } from './src/db';
 import store from './src/store';
 import { useFonts } from 'expo-font';
 
-export default function App() {
+init()
+  .then(() => console.log("Base de datos inicializada"))
+  .catch(err => {
+    console.log("Conexion con BD fallida!")
+    console.log(err.message);
+  });
 
+export default function App() {
+  
   const [loaded] = useFonts({
     "Oswald-VariableFont_wght": require("./src/fonts/Oswald-VariableFont_wght.ttf"),
   });
-
    
   if(!loaded) {
     return null;
   }
 
     return(
+      
       <Provider store={store}>
         <NavigationContainer>
           <BottomTabNavigator/>
