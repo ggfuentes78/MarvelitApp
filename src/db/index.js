@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabase("favs.db");
+export const db = SQLite.openDatabase("marvelapppp.db");
 
 export const init = () => {
     // const promiseUser= new Promise((resolve, reject) =>{
@@ -17,7 +17,7 @@ export const init = () => {
     // }) 
     const promise= new Promise((resolve, reject) =>{
         db.transaction(tx=>{
-        tx.executeSql("create table if not exists favs (id text not null, name text not null, image integer not null)",
+        tx.executeSql("create table if not exists favCharacters (id integer not null, name text not null, description text not null, comicsCollectionURI text, resourceURI text, thumbnailPath text not null, thumbnailExtension text not null)",
         [],
         ()=> {
             resolve();
@@ -26,7 +26,9 @@ export const init = () => {
             reject(err)
         }
         )})
+
     })
+    
     // const promiseFavsTeams= new Promise((resolve, reject) =>{
     //     db.transaction(tx=>{
     //     tx.executeSql("create table if not exists favTeams (id integer primary key not null, teamId integer not null)",
@@ -68,14 +70,23 @@ export const init = () => {
 // }
 
 export const fetchFavCharacters =()=>{
+    const itemsArray = [];
     const promise=new Promise((resolve, reject)=>{
-        db.transaction(tx=>{
-            tx.executeSql('SELECT * FROM favs',
+        db.transaction((tx)=>{
+            tx.executeSql('SELECT * FROM favCharacters',
             [],
-            (_, result) => resolve(result),
+            (_, {rows})=>resolve(rows),
+            // (_, { rows }) => {
+            //     for (let i = 0; i < rows.length; i++) {
+            //         itemsArray.push(rows.item(i));
+            //     }
+            //     console.log("ITEM ARRAY", itemsArray);
+            //     return itemsArray
+            // },
             (_, err) =>reject(err))
         })
     })
+    console.log("FETCHED CHARS", promise)
     return promise
 }
 
@@ -103,15 +114,36 @@ export const updateUser=(image)=>{
     return promise
 }
 
-export const addFavChar=(id, name, image)=>{
+export const addFavChar=(item)=>{
+    console.log("ITEM:", item)
     const promise = new Promise ((resolve, reject)=>{
-        db.transaction(tx =>{
-            tx.executeSql('INSERT INTO favs (id, name, image) VALUES(?, ?, ?)'
-            [id, name, image],
-            (_, result) => resolve(result),
+        db.transaction((tx) =>{
+            tx.executeSql('INSERT INTO favCharacters (id, name, description, comicsCollectionURI, resourceURI, thumbnailPath, thumbnailExtension) VALUES(?, ?, ?, ?,?, ?, ?)',
+            [item.id, item.name, item.description, item.comics.collectionURI, item.resourceURI, item.thumbnail.path, item.thumbnail.extension],
+            (_, result) => {
+                if (result.rowsAffected > 0) {
+                    console.log('Item inserted successfully');
+                }
+                resolve(result)
+            },
             (_, err) =>reject(err))
         })
     })
     console.log("PROMMM", promise)
+    return promise
+}
+
+export const rmvFavChar=(id)=>{
+    const promise = new Promise ((resolve, reject)=>{
+        db.transaction((tx)=>{
+            tx.executeSql('DELETE FROM favCharacters WHERE id=?', 
+            [id],
+            (_, result)=> {
+                console.log(`Deleted ${result.rowsAffected}`)
+                resolve(result)
+            },
+            (_, err)=>reject(err))
+        })
+    })
     return promise
 }

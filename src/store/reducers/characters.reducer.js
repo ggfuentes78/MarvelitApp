@@ -42,13 +42,6 @@ const CharactersReducer = (state= initialState, action) => {
                     characters: [...state.characters, ...action.characters]
                 }
             }
-            // return {
-            //     ...state, 
-            //     characters: [...state.characters, ...action.characters],
-            //     error: '',
-            //     loading: false,
-            //     moreLoading: false    
-            // }
         case SEARCH_CHARACTERS:
             if (action.offset>action.total){
                 return state
@@ -76,6 +69,12 @@ const CharactersReducer = (state= initialState, action) => {
                 ...state,
                 characters: action.characters,
             }
+        // case LOAD_FAV_CHARACTERS:{
+        //     return {
+        //         ...state,
+        //         favCharacters:[...new Set([...state.favCharacters,...action.favChars])],
+        //     }
+        // }
         default:
             return state
     }

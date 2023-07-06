@@ -15,7 +15,6 @@ const CharacterNavigator = () => {
             <Stack.Screen name='Character Detail' component={CharacterDetail} />
             <Stack.Screen name='Comic Detail' component={ComicDetail} />
             <Stack.Screen name='Event Detail' component={EventDetail} />
-            <Stack.Screen name='Series Detail' component={SeriesDetail} />
         </Stack.Navigator>
     )
 }

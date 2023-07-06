@@ -9,10 +9,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       paddingBottom:50,
-      // marginBottom: 50,
     },
     titleContainer:{
-      // flex:1,
       paddingTop:20,
       height:80,
       flexDirection: "row",
@@ -26,7 +24,6 @@ const styles = StyleSheet.create({
     },
     listContainer:{
       flex: 3,
-      // flexDirection: "row",
       marginTop: 10,
       marginHorizontal: 5,
       marginBottom: 25,
@@ -35,7 +32,6 @@ const styles = StyleSheet.create({
     renderItemStyle:{
       height: 150,
       flexDirection: "row",
-      // marginVertical: 15,
       marginHorizontal: 10,
       backgroundColor: colors.charactersListItemBackgroundColor,
       fontSize:40,
@@ -68,28 +64,19 @@ const styles = StyleSheet.create({
       borderColor: "#fff",
       borderWidth:5,
       left:50,
-      // resizeMode: "contain"
     },
     itemImageStyle:{
       height: "100%",
       width: "100%",
       resizeMode:"contain",
       borderRadius:50,
-      // right:-10,
     },
     textItemContainer:{
       width:"60%",
       justifyContent:"center",
       alignContent:"center",
-      // fontSize:30,
-      // textShadowColor: colors.textShadowColor,
-      // textShadowOffset:{ width: 1, height: 1},
-      // textShadowRadius:5,
-      // textDecorationColor: colors.textDecorationColor,
-      // color: "white",
       position:"absolute",
       left:150,
-      // fontFamily: fonts.itemFont,
     },
     textItemStyle:{
       fontSize:30,
@@ -98,7 +85,6 @@ const styles = StyleSheet.create({
       textShadowRadius:5,
       textDecorationColor: colors.textDecorationColor,
       color: "white",
-      // position:"absolute",
       fontFamily: fonts.itemFont,
     },
     itemStyle:{
@@ -109,7 +95,6 @@ const styles = StyleSheet.create({
       textShadowRadius:5,
       textDecorationColor:colors.textDecorationColor,
       color:colors.listItemTextColor,
-      // position:"absolute",
     },
     favStyle:{
       height: 30,
@@ -125,6 +110,16 @@ const styles = StyleSheet.create({
     emptyText: {
       fontSize: 18,
       color: 'gray',
+    },
+    loaderContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 10,
+    },
+    loaderText: {
+      marginLeft: 10,
+      fontSize: 16,
     },
   });
 

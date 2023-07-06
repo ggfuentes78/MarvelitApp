@@ -13,21 +13,22 @@ import { useEffect } from 'react';
 const ComicDetail = ({navigation}) => {
 
   const comicInfo = useSelector(state => state.comics.selectedComic)
-  // console.log("COMICCCC", comicInfo)
-console.log("ccc", JSON.stringify(comicInfo))
+ 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(loadSingleComic(comicInfo.selectedComic.collectionURI));
+    dispatch(loadSingleComic(comicInfo.resourceURI));
     dispatch(loadSeries(comicInfo.series.resourceURI));
     // dispatch(loadEvents(characterInfo.events.collectionURI));
 
   }, []);
 
+  // const seriesList=useSelector(state=> state.series.series);
+
   const handleSelectedItem = (item, type) => {
     switch (type){
       case 'Comic':
-        dispatch(selectedComic(item.id));
+        dispatch(selectedComic(item));
         navigation.navigate("Comic Detail");
         break;
       case 'Event':
@@ -109,9 +110,9 @@ console.log("ccc", JSON.stringify(comicInfo))
                 <Text style={styles.textItemStyle}>Description: {comicInfo.description}</Text>
                 <Text style={styles.textItemStyle}>Format: {comicInfo.format}</Text>
                 <Text style={styles.textItemStyle}>Pages: {comicInfo.pageCount}</Text>
-                <Text style={styles.textItemStyle}>{comicInfo.creators.items[0].role}: {comicInfo.creators.items[0].name}</Text>
-                <Text style={styles.textItemStyle}>{comicInfo.creators.items[1].role}: {comicInfo.creators.items[1].name}</Text>
-                <Text style={styles.textItemStyle}>{comicInfo.creators.items[2].role}: {comicInfo.creators.items[2].name}</Text>
+                {comicInfo.creators.items.length>0 &&<Text style={styles.textItemStyle}>{comicInfo.creators.items[0].role}: {comicInfo.creators.items[0].name}</Text>}
+                {comicInfo.creators.items.length>1 && <Text style={styles.textItemStyle}>{comicInfo.creators.items[1].role}: {comicInfo.creators.items[1].name}</Text>}
+                {comicInfo.creators.items.length>2 && <Text style={styles.textItemStyle}>{comicInfo.creators.items[2].role}: {comicInfo.creators.items[2].name}</Text>}
 
               </View>
               <View style={styles.separador}>

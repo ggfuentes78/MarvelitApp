@@ -144,11 +144,9 @@ const styles = StyleSheet.create({
       alignItems: "center" ,
     },
     subtitle:{
-      backgroundColor: colors.charactersListItemBackgroundColor,
+      backgroundColor: "#0a2b4e",//colors.charactersListItemBackgroundColor,
       // fontSize:40,
       width:"95%",
-      alignSelf:"center",
-      justifyContent:"center",
       borderRadius: 100,
       color:'#fff',
       fontWeight:'bold',

@@ -2,9 +2,10 @@ import { Text, View } from "react-native";
 
 import AppNavigator from "../AppNavigator";
 import CharacterNavigator from "../CharacterNavigator";
-import Comics from "../../screens/Comics";
+import ComicsNavigator from "../ComicsNavigator";
+import FavsScreen from "../../screens/FavsScreen";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Teams from "../../screens/Teams";
+import SeriesNavigator from "../SeriesNavigator";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import styles from "./styles";
 
@@ -44,20 +45,8 @@ export default BottomTabNavigator = () => {
                 }}
             />  
             <BottomTabs.Screen
-                name="TeamsNavigator" 
-                component={Teams} 
-                options={{
-                    tabBarIcon: () => (
-                        <View>
-                            <Ionicons name="people" size={30} color="black" />
-                            <Text>Teams</Text>
-                        </View>
-                    ),
-                }}
-            />  
-            <BottomTabs.Screen
                 name="ComicsNavigator" 
-                component={Comics} 
+                component={ComicsNavigator} 
                 options={{
                     tabBarIcon: () => (
                         <View>
@@ -66,7 +55,19 @@ export default BottomTabNavigator = () => {
                         </View>
                     ),
                 }}
-            />  
+            />
+            <BottomTabs.Screen
+                name="FavsNavigator" 
+                component={FavsScreen} 
+                options={{
+                    tabBarIcon: () => (
+                        <View>
+                            <Ionicons name="heart" size={30} color="black" />
+                            <Text>Favorites</Text>
+                        </View>
+                    ),
+                }}
+            />    
         </BottomTabs.Navigator>
     );
 };

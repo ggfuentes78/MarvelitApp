@@ -8,14 +8,13 @@ const styles = StyleSheet.create({
       backgroundColor: colors.mainBackgroundColor,
       alignItems: 'center',
       justifyContent: 'center',
+      paddingBottom:50,
     },
     titleContainer:{
-      flex:1,
+      paddingTop:20,
+      height:80,
       flexDirection: "row",
-      height:30,
       width: 400,
-      marginTop: 20,
-      justifyContent: "center" ,
       alignItems: "center" ,
     },
     titleText:{
@@ -25,14 +24,14 @@ const styles = StyleSheet.create({
     },
     listContainer:{
       flex: 3,
+      marginTop: 10,
       marginHorizontal: 5,
-      marginVertical: 20,
+      marginBottom: 25,
     
     },
     renderItemStyle:{
       height: 150,
       flexDirection: "row",
-      marginVertical: 15,
       marginHorizontal: 10,
       backgroundColor: colors.charactersListItemBackgroundColor,
       fontSize:40,
@@ -56,10 +55,28 @@ const styles = StyleSheet.create({
       position:"relative",
       left:-300,
     },
-    itemImageStyle:{
-      height: 140,
+    imgContainer:{
+      height: 100,
+      width: 100,
       resizeMode:"contain",
-      right:120,
+      borderRadius:50,
+      borderStyle:"solid",
+      borderColor: "#fff",
+      borderWidth:5,
+      left:50,
+    },
+    itemImageStyle:{
+      height: "100%",
+      width: "100%",
+      resizeMode:"contain",
+      borderRadius:50,
+    },
+    textItemContainer:{
+      width:"60%",
+      justifyContent:"center",
+      alignContent:"center",
+      position:"absolute",
+      left:150,
     },
     textItemStyle:{
       fontSize:30,
@@ -67,25 +84,43 @@ const styles = StyleSheet.create({
       textShadowOffset:{ width: 1, height: 1},
       textShadowRadius:5,
       textDecorationColor: colors.textDecorationColor,
-      color: colors.listItemTextColor,
-      position:"absolute",
+      color: "white",
       fontFamily: fonts.itemFont,
     },
     itemStyle:{
       fontSize:30,
+      width:"90%",
       textShadowColor:colors.textShadowColor,
       textShadowOffset:{ width: 1, height: 1},
       textShadowRadius:5,
       textDecorationColor:colors.textDecorationColor,
       color:colors.listItemTextColor,
-      position:"absolute",
     },
     favStyle:{
       height: 30,
       resizeMode:"contain",
-      left:150,
+      left:70,
       bottom:-50,
-    }
+    },
+    emptyContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    emptyText: {
+      fontSize: 18,
+      color: 'gray',
+    },
+    loaderContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingVertical: 10,
+    },
+    loaderText: {
+      marginLeft: 10,
+      fontSize: 16,
+    },
   });
 
   export default styles;

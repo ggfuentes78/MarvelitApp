@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 
 import CONFIG from '../../constants/config';
+// import Character from '../../models/Character';
 import SearchBar from '../../components/SearchBar';
 import { fetchFavCharacters } from '../../db';
 import filterOffIcon from '../../../assets/favFilter_empty.png';
@@ -15,11 +16,10 @@ const Characters = ({navigation}) => {
 
   const flatListRef = useRef(null);
   const dispatch = useDispatch();
-  let favoritos = useSelector(state=>state.user.favCharacters);
+  const favoritos = useSelector(state=>state.user.favCharacters);
   
   const [page, setPage] = useState(0)
   const [startsWith,setStartsWith]=useState("")
-  const [reload, setReload]=useState(false)
 
   const handleReload = () => {
     flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
@@ -27,26 +27,25 @@ const Characters = ({navigation}) => {
 
   useEffect(() => {
     if(startsWith=="") {
-      console.log("USEEFFECT STARTSWITH VACIO!")
       if(page===0)handleReload();
       dispatch(loadCharacters(page))
     }else{
-      console.log("page", page)
       if(page===0)handleReload()
       dispatch(searchCharacters(startsWith , page));
     };
-    // dispatch(loadFavCharacters());
-  }, [page, reload]);
+  // },[]);
+  }, [page, startsWith]);
+
+  
+  
 
   const favIconOn=require('../../../assets/hearts_full.png');
   const favIconOff=require('../../../assets/hearts_empty.png');
 
   const characterList=useSelector(state=> state.characters);
   const [favStatus, setFavStatus]=useState(false);
-  // let favoritos = useSelector(state=>state.user.favCharacters);
   const [filterFavs, setFilterFavs] = useState(false)
   const [filterIcon, setFilterIcon] = useState(filterOffIcon)
-  // console.log("CHARACTER LIST",characterList)
   
   
   const onHandleFilter=()=>{
@@ -59,17 +58,13 @@ const Characters = ({navigation}) => {
   };
 
   const onHandleFav=(item)=>{
-    setFavStatus(!favStatus)
-    // console.log("entre a fav general");
-    if (favoritos.includes(item)){
-      // console.log("entre a unfav");
+
+    if (favoritos.find(favItem=>favItem.id==item.id)){
       dispatch(unFavCharacter(item));
-      // console.log(`Se elimino el item id: ${item.id} de Favoritos`);
   }else{
-    console.log("entre a fav");
       dispatch(favCharacter(item));
-      // console.log(`Se agrego el item id: ${item.id} a Favoritos`);
     };
+    setFavStatus(!favStatus)
   };
 
   const handleSelectedCharacter = (item) => {
@@ -79,27 +74,38 @@ const Characters = ({navigation}) => {
   const fetchMoreData = () => {
     if(!characterList.isListEnd && !characterList.moreLoading){
       setPage(page+1)
-      // console.log("PAGE ", page)
     }
   }
+  
   const renderItem = ({item}) => {
     let favIcon
-    if(favoritos.includes(item)){
+    const newItem= {
+      "id": item.id, 
+      "name":  item.name,
+      "description": item.description,
+      "comics":{"collectionURI": item.comics.collectionURI},
+      "resourceURI": item.resourceURI,
+      "thumbnail":{
+          "path": item.thumbnail.path,
+          "extension": item.thumbnail.extension,
+      }
+     } 
+    if(favoritos.find(item=> item.id ==newItem.id)){
       favIcon=favIconOn
     }else{
       favIcon=favIconOff
     }
     return(
       <View style={styles.listContainer}>
-        <TouchableOpacity style={styles.renderItemStyle} onPress={()=>handleSelectedCharacter(item)} >
+        <TouchableOpacity style={styles.renderItemStyle} onPress={()=>handleSelectedCharacter(newItem)} >
           <View style={styles.imgContainer}>
-            <Image style={styles.itemImageStyle} source={{uri:`${item.thumbnail.path}.${item.thumbnail.extension}`}}/>
+            <Image style={styles.itemImageStyle} source={{uri:`${newItem.thumbnail.path}.${newItem.thumbnail.extension}`}}/>
           </View>
           <View style={styles.textItemContainer}>
-          <Text style={styles.textItemStyle}>{item.name}</Text>
+          <Text style={styles.textItemStyle}>{newItem.name}</Text>
           </View>
           <View style={styles.itemStyle}>
-            <TouchableOpacity onPress={()=> onHandleFav(item)}>
+            <TouchableOpacity onPress={()=> onHandleFav(newItem)}>
                 <Image style={styles.favStyle} source={favIcon}/>
             </TouchableOpacity>
           </View>
@@ -117,14 +123,10 @@ const Characters = ({navigation}) => {
     };
 
     const handleSearch = (searchText) =>{
-      // dispatch(unloadCharacters)
       setStartsWith(searchText)
       setPage(0)
-      setReload(!reload)
-      // dispatch(searchCharacters(startsWith))
     }
 
-    // console.log(`Favoritos: ${JSON.stringify(favoritos)}`)
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -133,13 +135,8 @@ const Characters = ({navigation}) => {
             <Image style={styles.filterIcon} source={filterIcon} />
         </TouchableOpacity>
       </View>
-      <SearchBar onSearch={handleSearch}/>
+      {!filterFavs && <SearchBar onSearch={handleSearch}/>}
       <View style={styles.listContainer}>
-        {/* {characterList.loading ? 
-          <View style={styles.loading}>
-            <ActivityIndicator size="large" color="#3498db"/>
-          </View>
-          :   */}
           {!filterFavs &&(
           <FlatList
             ref={flatListRef}
@@ -160,7 +157,6 @@ const Characters = ({navigation}) => {
             ListEmptyComponent={renderEmptyComponent}
           />
           )}
-        {/* } */}
       </View>
     </View>
   );

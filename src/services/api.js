@@ -46,6 +46,27 @@ export const searchData= async(uri, orderBy, searchText, page) =>{
         console.log("ERROR", err)
     }
 }
+export const searchDataByTitle= async(uri, orderBy, searchText, page) =>{
+    try{
+        const tmstp=timestamp()
+        const response = await axios.get(uri,{
+            params:{
+                ts: tmstp,
+                apikey: CONFIG.PUBLIC_KEY,
+                hash: md5(`${tmstp}${CONFIG.PRIVATE_KEY}${CONFIG.PUBLIC_KEY}`),
+                titleStartsWith: searchText,
+                orderBy: orderBy,
+                limit: reqLimit,
+                offset: (reqLimit*(page)),
+            }
+        })
+        console.log("SEARCHHHHH ", response.data.data)
+        console.log("first", searchText)
+        return response
+    }catch(err){
+        console.log("ERROR", err)
+    }
+}
 
 export const getNewComics=async(uri, orderBy, dateDescriptor, page) => {
     try{

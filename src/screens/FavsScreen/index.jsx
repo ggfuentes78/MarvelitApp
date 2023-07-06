@@ -10,7 +10,7 @@ import getInfo from '../../services/api';
 import styles from './styles';
 import { useEffect } from 'react';
 
-const CharacterDetail = ({navigation}) => {
+const FavsScreen = ({navigation}) => {
 
   const characterInfo = useSelector(state => state.characters.selectedCharacter)
 
@@ -162,4 +162,4 @@ const CharacterDetail = ({navigation}) => {
   )
 }
 
-export default CharacterDetail
+export default FavsScreen

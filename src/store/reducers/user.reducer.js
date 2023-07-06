@@ -1,16 +1,17 @@
-import { FAV_CHARACTER, FAV_TEAM, LOAD_FAV_CHARACTERS, LOAD_USER, SET_IMG, UNFAV_CHARACTER, UNFAV_TEAM } from '../actions/user.action';
+import { FAV_CHARACTER, FAV_TEAM, LOAD_FAVORITES, LOAD_USER, SET_IMG, UNFAV_CHARACTER, UNFAV_TEAM } from '../actions/user.action';
 import { addFavChar, fetchFavCharacters, fetchUser, updateFavChars, updateUser } from '../../db';
 
 const initialState ={
         userImg: null,
         favCharacters: [],
-        favTeams: [],
+        favSeries: [],
+        favComics:[],
     }
 
 const UserReducer = (state= initialState, action) => {
     switch (action.type){
         case FAV_CHARACTER:
-            console.log("uuuuuuuuu")
+            console.log("uuuuuuuuu", action.payload.character)
             // console.log("FAV", action.payload.character)
             state.favCharacters.push(action.payload.character)
             // console.log("FAVS=>", state.favCharacters)
@@ -18,7 +19,7 @@ const UserReducer = (state= initialState, action) => {
         case UNFAV_CHARACTER:
             // console.log("UNFAV", action.character)
             // console.log("FAVS=>", state.favCharacters)
-            return {...state, favCharacters: state.favCharacters.filter(element=> element!==action.character)};
+            return {...state, favCharacters: state.favCharacters.filter(element=> element.id!==action.character)};
         case FAV_TEAM:
             console.log("FAV", action.team)
             state.favTeams.push(action.team)
@@ -33,8 +34,14 @@ const UserReducer = (state= initialState, action) => {
             return {...state, userImg: action.imgUri};
         case LOAD_USER:
             return {...state, userImg: action.user.userImg};
-        case LOAD_FAV_CHARACTERS:
-                return {...state, favCharacters: action.favCharacters}
+        case LOAD_FAVORITES:
+            console.log("LOAD FAVS", action.favChars)
+            return {
+                ...state,
+                favCharacters:action.favChars,
+            }
+            // case LOAD_FAV_CHARACTERS:
+            //     return {...state, favCharacters: action.favCharacters}
         default:
             return state
     }
