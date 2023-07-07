@@ -15,7 +15,6 @@ const Comics = ({navigation}) => {
 
   const flatListRef = useRef(null);
   const dispatch = useDispatch();
-  const favoritos = useSelector(state=>state.user.favComics);
   
   const [page, setPage] = useState(0)
   const [startsWith,setStartsWith]=useState("")
@@ -34,35 +33,12 @@ const Comics = ({navigation}) => {
     };;
   }, [page, startsWith]);
 
-  const favIconOn=require('../../../assets/hearts_full.png');
-  const favIconOff=require('../../../assets/hearts_empty.png');
-
   const comicsList=useSelector(state=> state.comics);
-  const [favStatus, setFavStatus]=useState(false);
   const [filterFavs, setFilterFavs] = useState(false)
-  const [filterIcon, setFilterIcon] = useState(filterOffIcon)
-  
-  
-  const onHandleFilter=()=>{
-    if(!filterFavs){
-      setFilterIcon(filterOnIcon)
-    }else{
-      setFilterIcon(filterOffIcon)
-    }
-    setFilterFavs(!filterFavs)
-  };
 
-  const onHandleFav=(item)=>{
-    if (favoritos.find(favItem=>favItem.id==item.id)){
-      dispatch(unFavComic(item));
-  }else{
-      dispatch(favComic(item));
-    };
-    setFavStatus(!favStatus)
-  };
 
-  const handleSelectedComic = (item) => {
-    dispatch(selectedComic(item.id));
+  const handleSelectedComic = (itemId) => {
+    dispatch(selectedComic(itemId));
     navigation.navigate("Comic Detail")
   }
   const fetchMoreData = () => {
@@ -73,39 +49,15 @@ const Comics = ({navigation}) => {
   
   const renderItem = ({item}) => {
     console.log("RENDER", item)
-    let favIcon
-    const newItem= {
-      "id": item.id, 
-      "title":  item.title,
-      "description": item.description,
-      "series":{"resourceURI": item.series.resourceURI},
-      "resourceURI": item.resourceURI,
-      "thumbnail":{
-          "path": item.thumbnail.path,
-          "extension": item.thumbnail.extension,
-      },
-      "format": item.format,
-      "pageCount": item.pageCount,
-     } 
-     console.log("NEW ITEM", newItem)
-    if(favoritos.find(item=>item.id == newItem.id)){
-      favIcon=favIconOn
-    }else{
-      favIcon=favIconOff
-    }
+ 
     return(
       <View style={styles.listContainer}>
-        <TouchableOpacity style={styles.renderItemStyle} onPress={()=>handleSelectedComic(newItem)} >
+        <TouchableOpacity style={styles.renderItemStyle} onPress={()=>handleSelectedComic(item.id)} >
           <View style={styles.imgContainer}>
-            <Image style={styles.itemImageStyle} source={{uri:`${newItem.thumbnail.path}.${newItem.thumbnail.extension}`}}/>
+            <Image style={styles.itemImageStyle} source={{uri:`${item.thumbnail.path}.${item.thumbnail.extension}`}}/>
           </View>
           <View style={styles.textItemContainer}>
-          <Text style={styles.textItemStyle}>{newItem.title}</Text>
-          </View>
-          <View style={styles.itemStyle}>
-            <TouchableOpacity onPress={()=> onHandleFav(newItem)}>
-                <Image style={styles.favStyle} source={favIcon}/>
-            </TouchableOpacity>
+          <Text style={styles.textItemStyle}>{item.title}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -129,9 +81,9 @@ const Comics = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Comics</Text>
-        <TouchableOpacity onPress={()=> onHandleFilter()}>
+        {/* <TouchableOpacity onPress={()=> onHandleFilter()}>
             <Image style={styles.filterIcon} source={filterIcon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {!filterFavs && <SearchBar onSearch={handleSearch}/>}
       <View style={styles.listContainer}>

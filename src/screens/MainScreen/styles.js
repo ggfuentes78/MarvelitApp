@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
       shadowRadius: 2,
       elevation: 7,
       position: "relative",
-      // justifyContent: "center",
     },
     touchableItem:{
       height: 30,
@@ -99,12 +98,9 @@ const styles = StyleSheet.create({
       color: 'gray',
     },
     item: {
-      // Item styles
     },
     imgContainer:{
       height: 200,
-      // width:100,
-      // flexDirection: "column",
       marginVertical: 15,
       marginHorizontal: 10,
       backgroundColor: colors.charactersListItemBackgroundColor,
@@ -129,7 +125,6 @@ const styles = StyleSheet.create({
       textShadowRadius:5,
       textDecorationColor: colors.textDecorationColor,
       color: colors.listItemTextColor,
-      // position:"absolute",
       fontFamily: fonts.itemFont,
     },
     listItemContainer:{
@@ -138,14 +133,12 @@ const styles = StyleSheet.create({
     separador:{
       width: 400,
       paddingTop:10,
-      // marginBottom: 10,
       marginHorizontal: 10,
       justifyContent: "center",
       alignItems: "center" ,
     },
     subtitle:{
-      backgroundColor: "#0a2b4e",//colors.charactersListItemBackgroundColor,
-      // fontSize:40,
+      backgroundColor: "#0a2b4e",
       width:"95%",
       borderRadius: 100,
       color:'#fff',
@@ -156,7 +149,6 @@ const styles = StyleSheet.create({
       shadowOffset: { width: 1, height: 1},
       shadowRadius: 2,
       elevation: 7,
-      // paddingTop:5,
       paddingLeft: 30,
       marginVertical: 10,
       marginHorizontal: 10,
@@ -168,7 +160,6 @@ const styles = StyleSheet.create({
       textShadowRadius:5,
       textDecorationColor: colors.textDecorationColor,
       color: colors.listItemTextColor,
-      // position:"absolute",
       fontFamily: fonts.itemFont,
     },
   });

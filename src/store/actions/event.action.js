@@ -18,17 +18,8 @@ export const loadEvents = (uri) => {
     return async dispatch => {
         try{
             const tmstp=timestamp()
-            // console.log("TIME_EVENT===>", tmstp, uri)
             const response = await getInfo(uri,orderBy, 0)
-            // const response = await axios.get(CONFIG.URI_START+CONFIG.URI_GET_EVENTS,{
-            //     params:{
-            //         ts: tmstp,
-            //         apikey: CONFIG.PUBLIC_KEY,
-            //         hash: md5(`${tmstp}${CONFIG.PRIVATE_KEY}${CONFIG.PUBLIC_KEY}`),
-            //     }
-            // })
             const data = response.data.data;
-            // console.log("DATA EVENTS", data);
             dispatch({
                 type: LOAD_EVENTS,
                 events: data.results,

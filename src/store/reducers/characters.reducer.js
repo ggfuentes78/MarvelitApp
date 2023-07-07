@@ -1,8 +1,5 @@
 import { API_LIST_END, API_REQUEST_CHARACTERS, FAV_CHARACTER, LOAD_CHARACTERS, SEARCH_CHARACTERS, SELECTED_CHARACTER, UNFAV_CHARACTER, UNLOAD_CHARACTERS } from "../actions/character.action";
 
-// import CHARACTERS from '../../../public/characters';
-
-// console.log('ppp',CHARACTERS)
 const initialState = {
     characters: [],
     selectedCharacter: null, 
@@ -18,7 +15,6 @@ const CharactersReducer = (state= initialState, action) => {
     switch (action.type){
         case SELECTED_CHARACTER:
             const IndexCharacter = state.characters.findIndex(char => char.id === action.characterId);
-            // console.log("INDEX =>", action.characterId, IndexCharacter)
             if (IndexCharacter ===-1) return state;
             return {...state, selectedCharacter: state.characters[IndexCharacter]};
         case API_REQUEST_CHARACTERS:
@@ -69,12 +65,6 @@ const CharactersReducer = (state= initialState, action) => {
                 ...state,
                 characters: action.characters,
             }
-        // case LOAD_FAV_CHARACTERS:{
-        //     return {
-        //         ...state,
-        //         favCharacters:[...new Set([...state.favCharacters,...action.favChars])],
-        //     }
-        // }
         default:
             return state
     }

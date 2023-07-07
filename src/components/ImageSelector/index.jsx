@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 const ImageSelector = props => {
     const user= useSelector(state=>state.user)
+    console.log("UUSSEERR", user)
     const userPlaceHolder = placeHolder
     const[pickedUri, setPickedUri]= useState(user.userImg);
 

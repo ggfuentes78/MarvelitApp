@@ -1,10 +1,9 @@
 import { FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { connect, useDispatch, useSelector } from "react-redux";
-import { loadFavorites, loadUser } from "../../store/actions/user.action";
+import { loadFavorites, loadUser, setImg } from "../../store/actions/user.action";
 import { loadNewComics, loadNextComics, selectedNewComic, selectedNextComic } from "../../store/actions/comic.action";
 import { useEffect, useState, } from "react";
 
-// import Character from "../../models/Character";
 import Header from "../../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import charactersImg from '../../../assets/characters1.png';
@@ -16,8 +15,8 @@ import teamsImg from '../../../assets/characters.png';
 const MainScreen = ({navigation, favCharacters, loadFavorites}) => {
     
     const dispatch=useDispatch();
-    loadUser()
     const user= useSelector(state=> state.user)
+    console.log("USER", user.userName, user.userImg)
     
     
     useEffect(() => {
@@ -25,20 +24,22 @@ const MainScreen = ({navigation, favCharacters, loadFavorites}) => {
         dispatch(loadNewComics())
         dispatch(loadNextComics())
     }, [])
-    
-    // loadNewComics()
-    // loadNextComics()
 
     const newComicsList= useSelector(state=> state.comics.newComics)
     const nextComicsList= useSelector(state=> state.comics.nextComics)
     
-    // console.log("new", JSON.stringify(newComicsList))// console.log("UUUSSS" , user)
-
-    // useEffect(() => {
-    //     // loadUser();
-    //     console.log("UUUSSS2")
-    // }, []);
     const loadItemsFromDB = () => {
+        console.log("LOAD DB")
+        let userImg;
+        db.transaction((tx)=>{
+            console.log("CARGANDO USUARIO")
+            tx.executeSql('SELECT * FROM userInfo', [], (_, { rows }) =>{
+                console.log("first USER", rows._array[0])
+                userImg=(rows.item(0).userImg)
+                console.log("second USER", userImg)
+                dispatch(loadUser(userImg));
+            });
+        });
         const itemsArray = [];
         console.log("....CaRGANDO FAVORITOS...")
         db.transaction((tx) => {
@@ -56,7 +57,6 @@ const MainScreen = ({navigation, favCharacters, loadFavorites}) => {
                 };
               itemsArray.push(newItem);
             }
-            console.log("ARRAY", itemsArray)
             loadFavorites(itemsArray);
           });
         });
@@ -100,11 +100,6 @@ const MainScreen = ({navigation, favCharacters, loadFavorites}) => {
         )
     };
     
-    // const handleSelectedItem = (item) => {
-    //     dispatch(selectedComic(item.id));
-    //     console.log("iiiiii", item)
-    //     navigation.navigate("Comic Detail");
-    // }
     const handleSelectedItem = (item, type) => {
         switch (type){
           case 'New':
@@ -179,4 +174,3 @@ const mapStateToProps = (state) => ({
   };
   
 export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
-// export default MainScreen;

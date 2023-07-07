@@ -13,7 +13,7 @@ init()
   .then(() => console.log("Base de datos inicializada"))
   .catch(err => {
     console.log("Conexion con BD fallida!")
-    console.log(err.message);
+    console.log("DB ERROR", err.message);
   });
 
 export default function App() {

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 
 import CONFIG from '../../constants/config';
-// import Character from '../../models/Character';
 import SearchBar from '../../components/SearchBar';
 import { fetchFavCharacters } from '../../db';
 import filterOffIcon from '../../../assets/favFilter_empty.png';
@@ -33,7 +32,6 @@ const Characters = ({navigation}) => {
       if(page===0)handleReload()
       dispatch(searchCharacters(startsWith , page));
     };
-  // },[]);
   }, [page, startsWith]);
 
   

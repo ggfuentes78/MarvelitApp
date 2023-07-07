@@ -1,165 +1,148 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { loadCharComics, loadSingleComic, selectedComic } from '../../store/actions/comic.action';
-import { loadEvents, selectedEvent } from '../../store/actions/event.action';
-import { loadSeries, selectedSerie } from '../../store/actions/series.action';
+import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { favCharacter, loadFavCharacters, unFavCharacter } from '../../store/actions/user.action';
+import { loadCharacters, searchCharacters, selectedCharacter, unloadCharacters } from '../../store/actions/character.action';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
 
 import CONFIG from '../../constants/config';
-import React from 'react';
-import getInfo from '../../services/api';
+import SearchBar from '../../components/SearchBar';
+import { fetchFavCharacters } from '../../db';
+import filterOffIcon from '../../../assets/favFilter_empty.png';
+import filterOnIcon from '../../../assets/favFilter_full.png';
 import styles from './styles';
-import { useEffect } from 'react';
 
-const FavsScreen = ({navigation}) => {
+const Favs = ({navigation}) => {
 
-  const characterInfo = useSelector(state => state.characters.selectedCharacter)
-
+  const flatListRef = useRef(null);
   const dispatch = useDispatch();
+  const favoritos = useSelector(state=>state.user.favCharacters);
+  
+  const [page, setPage] = useState(0)
+  const [startsWith,setStartsWith]=useState("")
+
+  const handleReload = () => {
+    flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+  };
 
   useEffect(() => {
-    dispatch(loadCharComics(characterInfo.comics.collectionURI));
-    dispatch(loadSeries(characterInfo.series.collectionURI));
-    dispatch(loadEvents(characterInfo.events.collectionURI));
+    if(startsWith=="") {
+      if(page===0)handleReload();
+      dispatch(loadCharacters(page))
+    }else{
+      if(page===0)handleReload()
+      dispatch(searchCharacters(startsWith , page));
+    };
+  }, [page, startsWith]);
 
-  }, []);
+  
+  
 
+  const favIconOn=require('../../../assets/hearts_full.png');
+  const favIconOff=require('../../../assets/hearts_empty.png');
 
-  const comicList= useSelector(state=> state.comics.comics);
-  const eventList=useSelector(state=> state.events.events);
-  const seriesList=useSelector(state=> state.series.series);
-  // console.log("COMICS DEL CHARACTER", JSON.stringify(comicList))
-  // console.log("CHARACTER SELECTED: ", characterInfo)
-  const str=[characterInfo.thumbnail.path,".",characterInfo.thumbnail.extension]
-  imgUrl= String.prototype.concat(...str);
-  // console.log("IMAGEN====>>>>", imgUrl)
-  const comics=characterInfo.comics.items
-  const events=characterInfo.events
-  const stories=characterInfo.stories
-  // console.log("COMICS", comicList);
-  // console.log("EVENTS", eventList)
-  // console.log("SERIES", seriesList)
+  const characterList=useSelector(state=> state.characters);
+  const [favStatus, setFavStatus]=useState(false);
+  const [filterFavs, setFilterFavs] = useState(false)
+  const [filterIcon, setFilterIcon] = useState(filterOffIcon)
+  
+  
+  const onHandleFilter=()=>{
+    if(!filterFavs){
+      setFilterIcon(filterOnIcon)
+    }else{
+      setFilterIcon(filterOffIcon)
+    }
+    setFilterFavs(!filterFavs)
+  };
 
-  const handleSelectedItem = (item, type) => {
-    switch (type){
-      case 'Comic':
-        dispatch(selectedComic(item.id));
-        navigation.navigate("Comic Detail");
-        break;
-      case 'Event':
-        dispatch(selectedEvent(item.id));
-        navigation.navigate("Event Detail");
-        break;
-      case 'Series':
-        dispatch(selectedSerie(item.id));
-        navigation.navigate("Series Detail");
-        break;
-    default:
-      return
+  const onHandleFav=(item)=>{
+
+    if (favoritos.find(favItem=>favItem.id==item.id)){
+      dispatch(unFavCharacter(item));
+  }else{
+      dispatch(favCharacter(item));
+    };
+    setFavStatus(!favStatus)
+  };
+
+  const handleSelectedCharacter = (item) => {
+    dispatch(selectedCharacter(item.id));
+    navigation.navigate("Character Detail")
+  }
+  const fetchMoreData = () => {
+    if(!characterList.isListEnd && !characterList.moreLoading){
+      setPage(page+1)
     }
   }
   
-  const renderComicItem = ({item}) => {
-      return(
-        <View style={styles.listContainer}>
-          <TouchableOpacity style={styles.listItemContainer} onPress={()=>handleSelectedItem(item, "Comic")} >
-            <View style={styles.imgContainer}>
-              <Image style={styles.itemImageStyle} source={{uri:`${ item.thumbnail.path}.${ item.thumbnail.extension}`}}/>
-            </View>
-            <View>
-            <Text style={styles.textItemStyle}>{ item.title}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )
-  };
-
-  const renderSeriesItem = ({item}) => {
-      return(
-        <View style={styles.listContainer}>
-          <TouchableOpacity style={styles.listItemContainer} onPress={()=>handleSelectedItem(item, "Series")} >
-            <View style={styles.imgContainer}>
-              <Image style={styles.itemImageStyle} source={{uri:`${ item.thumbnail.path}.${ item.thumbnail.extension}`}}/>
-            </View>
-            <View>
-            <Text style={styles.textItemStyle}>{ item.title}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )
-  };
-
-  const renderEventItem = ({item}) => {
-      return(
-        <View style={styles.listContainer}>
-          <TouchableOpacity style={styles.listItemContainer} onPress={()=>handleSelectedItem(item, "Event")} >
-            <View style={styles.imgContainer}>
-              <Image style={styles.itemImageStyle} source={{uri:`${ item.thumbnail.path}.${ item.thumbnail.extension}`}}/>
-            </View>
-            <View>
-            <Text style={styles.textItemStyle}>{ item.title}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )
-  };
-  
-  return (
-      <View style={styles.container}>
-          <View style={styles.titleContainer}>
-              <Text style={styles.titleText}>{characterInfo.name}</Text>
+  const renderItem = ({item}) => {
+    let favIcon
+    const newItem= {
+      "id": item.id, 
+      "name":  item.name,
+      "description": item.description,
+      "comics":{"collectionURI": item.comics.collectionURI},
+      "resourceURI": item.resourceURI,
+      "thumbnail":{
+          "path": item.thumbnail.path,
+          "extension": item.thumbnail.extension,
+      }
+     } 
+    if(favoritos.find(item=> item.id ==newItem.id)){
+      favIcon=favIconOn
+    }else{
+      favIcon=favIconOff
+    }
+    return(
+      <View style={styles.listContainer}>
+        <TouchableOpacity style={styles.renderItemStyle} onPress={()=>handleSelectedCharacter(newItem)} >
+          <View style={styles.imgContainer}>
+            <Image style={styles.itemImageStyle} source={{uri:`${newItem.thumbnail.path}.${newItem.thumbnail.extension}`}}/>
           </View>
-          <ScrollView>
-          <View style={styles.listContainer}>
-              <View style={styles.renderItemStyle}>
-                <Image style={styles.itemImageStyle} source={{uri: imgUrl}}/>
-              </View>
-              <View style={styles.separador}>
-                <Text style={styles.subtitle}>Info</Text>
-                {characterInfo.description!="" ? <Text style={styles.textItemStyle}>{characterInfo.description}</Text> : <Text style={styles.textItemStyle}>No Data available</Text>}
-              </View>
-              <View style={styles.separador}>
-                <Text style={styles.subtitle}>Comics</Text>
-                {comicList.length>0 ? 
-                  <FlatList
-                    data={comicList}
-                    renderItem={renderComicItem}
-                    keyExtractor={item => item.id}
-                    horizontal={true}
-                  />
-                : 
-                  <Text style={styles.textItemStyle}>No Comics Data available</Text>
-                }
-              </View>
-              <View style={styles.separador}>
-                <Text style={styles.subtitle}>Series</Text>
-                {seriesList.length>0 ? 
-                  <FlatList
-                    data={seriesList}
-                    renderItem={renderSeriesItem}
-                    keyExtractor={item => item.id}
-                    horizontal={true}
-                  />
-                : 
-                  <Text style={styles.textItemStyle}>No Series Data available</Text>
-                }
-              </View>
-              <View style={styles.separador}>
-                <Text style={styles.subtitle}>Events</Text>
-                {eventList.length>0 ? 
-                <FlatList
-                  data={eventList}
-                  renderItem={renderEventItem}
-                  keyExtractor={item => item.id}
-                  horizontal={true}
-                />
-              :
-              <Text style={styles.textItemStyle}>No Data available</Text>
-              }
-              </View>
+          <View style={styles.textItemContainer}>
+          <Text style={styles.textItemStyle}>{newItem.name}</Text>
           </View>
-          </ScrollView>
+          <View style={styles.itemStyle}>
+            <TouchableOpacity onPress={()=> onHandleFav(newItem)}>
+                <Image style={styles.favStyle} source={favIcon}/>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
       </View>
-  )
+    )
+    };
+
+    const renderEmptyComponent = () => {
+      return (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>No items to display</Text>
+        </View>
+      );
+    };
+
+    const handleSearch = (searchText) =>{
+      setStartsWith(searchText)
+      setPage(0)
+    }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}>Favorites</Text>
+      </View>
+      <View style={styles.separador}>
+        <Text style={styles.subtitle}>Characters</Text>
+      </View>
+      <View style={styles.listContainer}>
+          <FlatList
+            data={favoritos}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            ListEmptyComponent={renderEmptyComponent}
+          />
+      </View>
+    </View>
+  );
 }
 
-export default FavsScreen
+export default Favs;

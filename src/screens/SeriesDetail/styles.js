@@ -5,20 +5,12 @@ import fonts from "../../constants/fonts";
 const styles = StyleSheet.create({
     container: {
       flex: 4,
-      // flexDirection:"row",
       width:"100%",
       marginBottom:60,
       backgroundColor: colors.mainBackgroundColor,
-      // alignItems: 'center',
-      // justifyContent: 'center',
     },
     titleContainer:{
-      // flex:1,
-      // flexDirection: "row",
-      height:60,
       backgroundColor:"red",
-      // width: 400,
-
       marginVertical: 15,
       justifyContent: "center" ,
       alignItems: "center" ,
@@ -35,8 +27,7 @@ const styles = StyleSheet.create({
     
     },
     renderItemStyle:{
-      height: 200,
-      // flexDirection: "column",
+      height: 350,
       marginVertical: 15,
       marginHorizontal: 10,
       backgroundColor: colors.charactersListItemBackgroundColor,
@@ -53,8 +44,6 @@ const styles = StyleSheet.create({
     },
     imgContainer:{
       height: 200,
-      // width:100,
-      // flexDirection: "column",
       marginVertical: 15,
       marginHorizontal: 10,
       backgroundColor: colors.charactersListItemBackgroundColor,
@@ -90,7 +79,6 @@ const styles = StyleSheet.create({
       textShadowRadius:5,
       textDecorationColor: colors.textDecorationColor,
       color: colors.listItemTextColor,
-      // position:"absolute",
       fontFamily: fonts.itemFont,
     },
     listItemContainer:{
@@ -112,8 +100,6 @@ const styles = StyleSheet.create({
       bottom:-50,
     },
     textContainerstyle:{
-      // height: 200,
-      // flexDirection: "column",
       width: 400,
       marginVertical: 15,
       marginHorizontal: 10,
@@ -127,33 +113,18 @@ const styles = StyleSheet.create({
       shadowOffset: { width: 1, height: 1},
       shadowRadius: 2,
       elevation: 7,
-      // position: "relative"
     },
     separador:{
       flex:1,
-      // flexDirection:"column",
-      // height: 200,
-      // flexDirection: "column",
       width: 400,
       paddingTop:10,
-      // paddingBottom:60,
       marginBottom: 30,
       marginHorizontal: 10,
-      // backgroundColor: colors.charactersListItemBackgroundColor,
-      // fontSize:40,
-      // borderRadius: 100,
       justifyContent: "center",
       alignItems: "center" ,
-      // shadowColor: colors.shadowColor,
-      // shadowOpacity: 0.3,
-      // shadowOffset: { width: 1, height: 1},
-      // shadowRadius: 2,
-      // elevation: 7,
-      // position: "relative"
     },
     subtitle:{
       backgroundColor: colors.charactersListItemBackgroundColor,
-      // fontSize:40,
       width:"95%",
       alignSelf:"center",
       justifyContent:"center",
@@ -166,11 +137,10 @@ const styles = StyleSheet.create({
       shadowOffset: { width: 1, height: 1},
       shadowRadius: 2,
       elevation: 7,
-      // paddingTop:5,
       paddingLeft: 30,
       marginVertical: 10,
       marginHorizontal: 10,
-    }
+    },
   });
 
   export default styles;

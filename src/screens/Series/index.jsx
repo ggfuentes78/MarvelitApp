@@ -1,21 +1,16 @@
 import { ActivityIndicator, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
-import { favCharacter, loadFavCharacters, unFavCharacter } from '../../store/actions/user.action';
-import { loadCharacters, searchCharacters, selectedCharacter, unloadCharacters } from '../../store/actions/character.action';
+import { loadSeries, searchSeries, selectedSerie } from '../../store/actions/series.action';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 
 import CONFIG from '../../constants/config';
 import SearchBar from '../../components/SearchBar';
-import { fetchFavCharacters } from '../../db';
-import filterOffIcon from '../../../assets/favFilter_empty.png';
-import filterOnIcon from '../../../assets/favFilter_full.png';
 import styles from './styles';
 
-const Characters = ({navigation}) => {
+const Series = ({navigation}) => {
 
   const flatListRef = useRef(null);
   const dispatch = useDispatch();
-  const favoritos = useSelector(state=>state.user.favCharacters);
   
   const [page, setPage] = useState(0)
   const [startsWith,setStartsWith]=useState("")
@@ -27,70 +22,36 @@ const Characters = ({navigation}) => {
   useEffect(() => {
     if(startsWith=="") {
       if(page===0)handleReload();
-      dispatch(loadCharacters(page))
+      dispatch(loadSeries(page))
     }else{
       if(page===0)handleReload()
-      dispatch(searchCharacters(startsWith , page));
+      dispatch(searchSeries(startsWith , page));
     };;
   }, [page, startsWith]);
 
-  const favIconOn=require('../../../assets/hearts_full.png');
-  const favIconOff=require('../../../assets/hearts_empty.png');
-
-  const characterList=useSelector(state=> state.characters);
-  const [favStatus, setFavStatus]=useState(false);
+  const seriesList=useSelector(state=> state.series);
   const [filterFavs, setFilterFavs] = useState(false)
-  const [filterIcon, setFilterIcon] = useState(filterOffIcon)
   
-  
-  const onHandleFilter=()=>{
-    if(!filterFavs){
-      setFilterIcon(filterOnIcon)
-    }else{
-      setFilterIcon(filterOffIcon)
-    }
-    setFilterFavs(!filterFavs)
-  };
-
-  const onHandleFav=(item)=>{
-    setFavStatus(!favStatus)
-    if (favoritos.includes(item)){
-      dispatch(unFavCharacter(item));
-  }else{
-      dispatch(favCharacter(item));
-    };
-  };
-
-  const handleSelectedCharacter = (item) => {
-    dispatch(selectedCharacter(item.id));
-    navigation.navigate("Character Detail")
+  const handleSelectedSeries = (itemId) => {
+    dispatch(selectedSerie(itemId));
+    navigation.navigate("Series Detail")
   }
   const fetchMoreData = () => {
-    if(!characterList.isListEnd && !characterList.moreLoading){
+    if(!seriesList.isListEnd && !seriesList.moreLoading){
       setPage(page+1)
     }
   }
   
   const renderItem = ({item}) => {
-    let favIcon
-    if(favoritos.includes(item)){
-      favIcon=favIconOn
-    }else{
-      favIcon=favIconOff
-    }
+
     return(
       <View style={styles.listContainer}>
-        <TouchableOpacity style={styles.renderItemStyle} onPress={()=>handleSelectedCharacter(item)} >
+        <TouchableOpacity style={styles.renderItemStyle} onPress={()=>handleSelectedSeries(item.id)} >
           <View style={styles.imgContainer}>
             <Image style={styles.itemImageStyle} source={{uri:`${item.thumbnail.path}.${item.thumbnail.extension}`}}/>
           </View>
           <View style={styles.textItemContainer}>
-          <Text style={styles.textItemStyle}>{item.name}</Text>
-          </View>
-          <View style={styles.itemStyle}>
-            <TouchableOpacity onPress={()=> onHandleFav(item)}>
-                <Image style={styles.favStyle} source={favIcon}/>
-            </TouchableOpacity>
+          <Text style={styles.textItemStyle}>{item.title}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -112,10 +73,10 @@ const Characters = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>Character List</Text>
-        <TouchableOpacity onPress={()=> onHandleFilter()}>
+        <Text style={styles.titleText}>Series List</Text>
+        {/* <TouchableOpacity onPress={()=> onHandleFilter()}>
             <Image style={styles.filterIcon} source={filterIcon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <SearchBar onSearch={handleSearch}/>
       <View style={styles.listContainer}>
@@ -123,7 +84,7 @@ const Characters = ({navigation}) => {
           <FlatList
             ref={flatListRef}
             contentContainerStyle={{flexGrow: 1}}
-            data={characterList.characters}
+            data={seriesList.series}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             onEndReachedThreshold={0.2}
@@ -144,4 +105,4 @@ const Characters = ({navigation}) => {
   );
 }
 
-export default Characters;
+export default Series;

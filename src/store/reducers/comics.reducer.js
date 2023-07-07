@@ -1,7 +1,5 @@
 import { LOAD_COMICS, LOAD_NEW_COMICS, LOAD_NEXT_COMICS, LOAD_SINGLE_COMIC, SEARCH_COMICS, SELECTED_COMIC, SELECTED_NEW_COMIC, SELECTED_NEXT_COMIC } from "../actions/comic.action";
 
-// import { COMICS } from '../../../public/comics'
-
 const initialState = {
     comics: [],
     newComics: [],
@@ -15,11 +13,10 @@ const ComicsReducer = (state= initialState, action) => {
     switch (action.type){
         case SELECTED_COMIC:
             const IndexComic = state.comics.findIndex(comic => comic.id === action.comicId);
+            console.log("INDICE", IndexComic)
             if (IndexComic ===-1) {
-                const IndexFavComic = state.user.favComics.findIndex(comic=>comic.id===action.comicId);
                 return state};
             return {...state, selectedComic: state.comics[IndexComic]};
-            // return {...state, selectedComic: action.comic};
         case SELECTED_NEW_COMIC:
             const IndexNewComic = state.newComics.findIndex(comic => comic.id === action.comicId);
             if (IndexNewComic ===-1) return state;

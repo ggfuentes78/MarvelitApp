@@ -2,6 +2,7 @@ import { FAV_CHARACTER, FAV_TEAM, LOAD_FAVORITES, LOAD_USER, SET_IMG, UNFAV_CHAR
 import { addFavChar, fetchFavCharacters, fetchUser, updateFavChars, updateUser } from '../../db';
 
 const initialState ={
+        userName:"",
         userImg: null,
         favCharacters: [],
         favSeries: [],
@@ -12,36 +13,19 @@ const UserReducer = (state= initialState, action) => {
     switch (action.type){
         case FAV_CHARACTER:
             console.log("uuuuuuuuu", action.payload.character)
-            // console.log("FAV", action.payload.character)
             state.favCharacters.push(action.payload.character)
-            // console.log("FAVS=>", state.favCharacters)
             return state;
         case UNFAV_CHARACTER:
-            // console.log("UNFAV", action.character)
-            // console.log("FAVS=>", state.favCharacters)
             return {...state, favCharacters: state.favCharacters.filter(element=> element.id!==action.character)};
-        case FAV_TEAM:
-            console.log("FAV", action.team)
-            state.favTeams.push(action.team)
-            console.log("FAVS=>", state.favTeams)
-            return state;
-        case UNFAV_TEAM:
-            console.log("UNFAV", action.team)
-            console.log("FAVS=>", state.favTeams)
-            return {...state, favTeams: state.favTeams.filter(element=> element!==action.team)};
         case SET_IMG:
-            updateUser(action.imgUri)
             return {...state, userImg: action.imgUri};
         case LOAD_USER:
-            return {...state, userImg: action.user.userImg};
+            return {...state, userImg: action.imgUri};
         case LOAD_FAVORITES:
-            console.log("LOAD FAVS", action.favChars)
             return {
                 ...state,
                 favCharacters:action.favChars,
             }
-            // case LOAD_FAV_CHARACTERS:
-            //     return {...state, favCharacters: action.favCharacters}
         default:
             return state
     }

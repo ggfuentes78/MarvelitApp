@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     },
     listContainer:{
       flex: 3,
+      width:400,
       marginTop: 10,
       marginHorizontal: 5,
       marginBottom: 25,
@@ -56,20 +57,18 @@ const styles = StyleSheet.create({
       left:-300,
     },
     imgContainer:{
-      height: 100,
-      width: 100,
+      height: 150,
+      width: 110,
       resizeMode:"contain",
-      borderRadius:50,
       borderStyle:"solid",
       borderColor: "#fff",
       borderWidth:5,
-      left:50,
+      left:-120,
     },
     itemImageStyle:{
       height: "100%",
       width: "100%",
       resizeMode:"contain",
-      borderRadius:50,
     },
     textItemContainer:{
       width:"60%",

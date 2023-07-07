@@ -11,9 +11,9 @@ export const LOAD_NEW_COMICS="LOAD_NEW_COMICS";
 export const LOAD_NEXT_COMICS="LOAD_NEXT_COMICS";
 export const SEARCH_COMICS="SEARCH_COMICS";
 
-export const selectedComic = item => ({
+export const selectedComic = id => ({
     type: SELECTED_COMIC,
-    comic: item.id,
+    comicId: id,
 });
 
 export const searchComics = (startsWith, page) => {
@@ -138,7 +138,6 @@ export const loadNextComics = () => {
         try{
             const response = await getNewComics(uri,orderBy, dateDescriptor, 0)
             const data = response.data.data;
-            // console.log("next comics", data)
             dispatch({
                 type: LOAD_NEXT_COMICS,
                 comics: data.results,

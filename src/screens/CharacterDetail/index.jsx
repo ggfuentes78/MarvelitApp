@@ -1,7 +1,7 @@
 import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { loadCharComics, loadSingleComic, selectedComic } from '../../store/actions/comic.action';
+import { loadCharSeries, loadSeries, selectedSerie } from '../../store/actions/series.action';
 import { loadEvents, selectedEvent } from '../../store/actions/event.action';
-import { loadSeries, selectedSerie } from '../../store/actions/series.action';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CONFIG from '../../constants/config';
@@ -18,7 +18,7 @@ const CharacterDetail = ({navigation}) => {
 
   useEffect(() => {
     dispatch(loadCharComics(characterInfo.comics.collectionURI));
-    dispatch(loadSeries(characterInfo.series.collectionURI));
+    dispatch(loadCharSeries(characterInfo.series.collectionURI));
     dispatch(loadEvents(characterInfo.events.collectionURI));
 
   }, []);
@@ -27,17 +27,8 @@ const CharacterDetail = ({navigation}) => {
   const comicList= useSelector(state=> state.comics.comics);
   const eventList=useSelector(state=> state.events.events);
   const seriesList=useSelector(state=> state.series.series);
-  // console.log("COMICS DEL CHARACTER", JSON.stringify(comicList))
-  // console.log("CHARACTER SELECTED: ", characterInfo)
   const str=[characterInfo.thumbnail.path,".",characterInfo.thumbnail.extension]
   imgUrl= String.prototype.concat(...str);
-  // console.log("IMAGEN====>>>>", imgUrl)
-  const comics=characterInfo.comics.items
-  const events=characterInfo.events
-  const stories=characterInfo.stories
-  // console.log("COMICS", comicList);
-  // console.log("EVENTS", eventList)
-  // console.log("SERIES", seriesList)
 
   const handleSelectedItem = (item, type) => {
     switch (type){

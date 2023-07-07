@@ -1,73 +1,38 @@
 import * as SQLite from 'expo-sqlite';
 
-export const db = SQLite.openDatabase("marvelapppp.db");
+export const db = SQLite.openDatabase("marvelitAPP.db");
 
-export const init = () => {
-    // const promiseUser= new Promise((resolve, reject) =>{
-    //     db.transaction(tx=>{
-    //     tx.executeSql("create table if not exists userInfo (id integer primary key not null, userName text not null, userImg text )",
-    //     [1, 'Usuario', ''],
-    //     ()=> {
-    //         resolve();
-    //     },
-    //     (_, err) =>{
-    //         reject(err)
-    //     }
-    //     )})
-    // }) 
-    const promise= new Promise((resolve, reject) =>{
-        db.transaction(tx=>{
-        tx.executeSql("create table if not exists favCharacters (id integer not null, name text not null, description text not null, comicsCollectionURI text, resourceURI text, thumbnailPath text not null, thumbnailExtension text not null)",
-        [],
-        ()=> {
-            resolve();
-        },
-        (_, err) =>{
-            reject(err)
-        }
-        )})
+export const init = async () => {
 
-    })
+    db.transaction(async (tx) => {
+        try{
+        // Crea la tabla favCharacters si no existe
+        tx.executeSql(
+            'CREATE TABLE IF NOT EXISTS favCharacters (id INTEGER NOT NULL, name TEXT NOT NULL, description TEXT, comicsCollectionURI TEXT, resourceURI TEXT, thumbnailPath TEXT, thumbnailExtension TEXT )'
+        );    
+        // Crea la tabla UserInfo si no existe
+        tx.executeSql(
+            'CREATE TABLE IF NOT EXISTS userInfo (id INTEGER NOT NULL, userName TEXT, userImg text )'
+        );
     
-    // const promiseFavsTeams= new Promise((resolve, reject) =>{
-    //     db.transaction(tx=>{
-    //     tx.executeSql("create table if not exists favTeams (id integer primary key not null, teamId integer not null)",
-    //     [],
-    //     ()=> {
-    //         resolve();
-    //     },
-    //     (_, err) =>{
-    //         reject(err)
-    //     }
-    //     )})
-    // })
-    // const promiseFavsComics= new Promise((resolve, reject) =>{
-    //     db.transaction(tx=>{
-    //     tx.executeSql("create table if not exists favComics (id integer primary key not null, comicId integer not null)",
-    //     [],
-    //     ()=> {
-    //         resolve();
-    //     },
-    //     (_, err) =>{
-    //         reject(err)
-    //     }
-    //     )})
-    // })
-    return (promise)
-};
+        tx.executeSql('SELECT * FROM userInfo',
+            [],
+            (_, {rows})=>{
+                if (rows.length== 0) {
+                    Promise.all([
+                        tx.executeSql('INSERT INTO userInfo (id, userName) VALUES (?, ?)', [1, 'Usuario'])
+                    ]);
+                }
+            }
+            );
+      }catch(err){
+        console.log("EEEEEEE", err)
+      }finally{
 
-// export const createUser=()=>{
-//     const promise=new Promise((resolve, reject)=>{
-//         db.transaction(tx=>{
-//             tx.executeSql("insert into userInfo (userName) VALUES (?)",
-//             ["Usuario"],
-//             (_, result)=>resolve(result),
-//             (_, err) => reject(err)            
-//             )
-//         })
-//     })
-//     return promise
-// }
+      }});
+    };
+    
+
 
 export const fetchFavCharacters =()=>{
     const itemsArray = [];
@@ -76,13 +41,13 @@ export const fetchFavCharacters =()=>{
             tx.executeSql('SELECT * FROM favCharacters',
             [],
             (_, {rows})=>resolve(rows),
-            // (_, { rows }) => {
-            //     for (let i = 0; i < rows.length; i++) {
-            //         itemsArray.push(rows.item(i));
-            //     }
-            //     console.log("ITEM ARRAY", itemsArray);
-            //     return itemsArray
-            // },
+            (_, { rows }) => {
+                for (let i = 0; i < rows.length; i++) {
+                    itemsArray.push(rows.item(i));
+                }
+                console.log("ITEM ARRAY", itemsArray);
+                return itemsArray
+            },
             (_, err) =>reject(err))
         })
     })
@@ -90,13 +55,15 @@ export const fetchFavCharacters =()=>{
     return promise
 }
 
-export const fetchUser =()=>{
+export const fetchUser =(id)=>{
     const promise=new Promise((resolve, reject)=>{
         db.transaction(tx=>{
-            tx.executeSql('SELECT * FROM userInfo',
-            [],
-            (_, result) => resolve(result),
-            (_, err) =>reject(err))
+            tx.executeSql('SELECT * FROM userInfo WHERE id=?',
+            [id],
+            (_, {result}) => {console.log("RES USER", result.length);
+            resolve(result)},
+            (_, err) =>{console.log("ERR USER", err);
+            reject(err)})
         })
     })
     return promise
@@ -105,9 +72,14 @@ export const fetchUser =()=>{
 export const updateUser=(image)=>{
     const promise=new Promise((resolve, reject)=>{
         db.transaction(tx=>{
-            tx.executeSql('update (userImg) from userInfo VALUES(?) WHERE (id=1)'
+            tx.executeSql('UPDATE userInfo SET userImg = (?) WHERE id=1',
             [image],
-            (_, result) => resolve(result),
+            (_, result) => {
+                if (result.rowsAffected > 0) {
+                    console.log('Item updated successfully');
+                }else{console.log("QUE PACHO???")}
+                resolve(result)
+            },
             (_, err) =>reject(err))
         })
     })

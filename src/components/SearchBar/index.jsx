@@ -12,11 +12,6 @@ const SearchBar = ({ onSearch }) => {
     onSearch(searchText);
   };
 
-  // const handleLoad = () => {
-  //   // Keyboard.dismiss();
-  //   onLoad("");
-  // };
-
   const handleCancel = () => {
     setSearchText("");
     onSearch("")
@@ -33,9 +28,6 @@ const SearchBar = ({ onSearch }) => {
       {searchText!="" &&<TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
         <Ionicons name="trash" size={24} color="white" />
       </TouchableOpacity>}
-      {/* <TouchableOpacity style={styles.searchButton} onPress={handleLoad}>
-        <Ionicons name="search" size={24} color="red" />
-      </TouchableOpacity> */}
       <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
         <Ionicons name="search" size={24} color="white" />
       </TouchableOpacity>

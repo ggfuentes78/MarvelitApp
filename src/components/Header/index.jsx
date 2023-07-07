@@ -2,14 +2,19 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import React from "react";
 import styles from "./styles";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import wolverine from '../../../assets/image-placeholder.png'
+import userPlaceHolder from '../../../assets/image-placeholder.png'
 
 const Header = ({ navigation, title})=>{
     const user=useSelector(state=>state.user)
     console.log("UUUSS3", user)
-    const placeHolderUser =wolverine
-    console.log("LLL", user.userImg);
+    
+    useEffect(() => {
+      console.log("RECARGO HEADER")
+    }, [])
+    
+    const placeHolderUser =userPlaceHolder
     return(
         <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>

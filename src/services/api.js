@@ -8,7 +8,6 @@ const reqLimit=20;
 export const getInfo=async(uri, orderBy, page) => {
     try{
         const tmstp=timestamp()
-        // console.log("TIME3===>", page, "TS", tmstp, "HASH:", md5(`${tmstp}${CONFIG.PRIVATE_KEY}${CONFIG.PUBLIC_KEY}`), "APIKEY:", CONFIG.PUBLIC_KEY)
         const response = await axios.get(uri,{
             params:{
                 ts: tmstp,
@@ -71,7 +70,6 @@ export const searchDataByTitle= async(uri, orderBy, searchText, page) =>{
 export const getNewComics=async(uri, orderBy, dateDescriptor, page) => {
     try{
         const tmstp=timestamp()
-        // console.log("TIME3===>", page, "TS", tmstp, "HASH:", md5(`${tmstp}${CONFIG.PRIVATE_KEY}${CONFIG.PUBLIC_KEY}`), "APIKEY:", CONFIG.PUBLIC_KEY)
         const response = await axios.get(uri,{
             params:{
                 ts: tmstp,
@@ -89,4 +87,3 @@ export const getNewComics=async(uri, orderBy, dateDescriptor, page) => {
     }
 }
 
-// export default getInfo
